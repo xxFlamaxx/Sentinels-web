@@ -3,59 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentinels | Logística y Eventos</title>
+    <title>Sentinels Logística | Sistema Interno</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="view-auth" class="auth-container">
-        
         <div id="auth-login" class="auth-card">
             <div class="logo">SENTINELS <span>LOGÍSTICA</span></div>
-            <h2>Iniciar Sesión</h2>
-            <p class="subtitle">Logística y Eventos</p>
-            <input type="email" id="login-email" placeholder="Correo electrónico" required>
-            <input type="password" id="login-pass" placeholder="Contraseña" required>
+            <h2>Ingreso al Sistema</h2>
+            <input type="email" id="login-email" placeholder="Correo electrónico">
+            <input type="password" id="login-pass" placeholder="Contraseña">
             <button class="btn-primary" onclick="handleLogin()">Entrar</button>
-            <p class="footer-text">¿No tienes cuenta? <a href="#" onclick="toggleAuth('register')">Regístrate aquí</a></p>
+            <p class="footer-text">¿Eres nuevo? <a href="#" onclick="toggleAuth('register')">Regístrate aquí</a></p>
         </div>
 
         <div id="auth-register" class="auth-card" style="display:none;">
-            <h2>Crear Cuenta</h2>
+            <h2>Registro de Personal</h2>
             <div class="input-group">
-                <input type="text" id="reg-nombre" placeholder="Nombre" required>
-                <input type="text" id="reg-apellido" placeholder="Apellido" required>
+                <input type="text" id="reg-nombre" placeholder="Nombre">
+                <input type="text" id="reg-apellido" placeholder="Apellido">
             </div>
-            <input type="email" id="reg-email" placeholder="Correo electrónico" required>
-            <input type="password" id="reg-pass" placeholder="Contraseña (mín. 6 caracteres)" required>
-            <input type="tel" id="reg-tel" placeholder="Número de Teléfono" required>
-            <button class="btn-primary" onclick="enviarSMS()">Enviar Código SMS</button>
-            
-            <div id="sms-section" style="display:none; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
-                <p style="font-size: 0.9rem; color: #666;">Ingresa el código de 6 dígitos enviado por SMS (Simulación: 123456)</p>
-                <input type="text" id="reg-code" placeholder="Código de verificación" maxlength="6">
-                <button class="btn-secondary" onclick="verificarYRegistrar()">Verificar y Crear Cuenta</button>
+            <input type="email" id="reg-email" placeholder="Correo">
+            <input type="password" id="reg-pass" placeholder="Contraseña">
+            <button class="btn-primary" onclick="enviarSMS()">Validar con SMS</button>
+            <div id="sms-section" style="display:none; margin-top:15px;">
+                <input type="text" id="reg-code" placeholder="Código (123456)">
+                <button class="btn-secondary" onclick="verificarYRegistrar()">Completar Registro</button>
             </div>
-            
-            <p class="footer-text"><a href="#" onclick="toggleAuth('login')">Volver al inicio de sesión</a></p>
+            <p class="footer-text"><a href="#" onclick="toggleAuth('login')">Volver al inicio</a></p>
         </div>
     </div>
 
     <div id="view-home" style="display:none;">
-        
         <nav class="sidebar">
             <div class="sidebar-header">SENTINELS</div>
             <ul class="nav-links">
-                <li onclick="showSection('perfil')" class="active"><i class="fas fa-id-card"></i> Mi Perfil / Carnet</li>
-                <li onclick="showSection('capacitaciones')"><i class="fas fa-graduation-cap"></i> Capacitaciones</li>
-                <li onclick="showSection('comunicados')" id="nav-comunicados">
-                    <i class="fas fa-bullhorn"></i> Comunicados <span id="dot-notif" class="dot" style="display:none;"></span>
-                </li>
-                <li onclick="showSection('eventos')"><i class="fas fa-calendar-check"></i> Eventos Asignados</li>
-                <li onclick="showSection('boletas-list')"><i class="fas fa-list-ol"></i> Listado de Boletas</li>
-                <li onclick="showSection('boletas-ins')"><i class="fas fa-ticket-alt"></i> Inscripción de Boletas</li>
-                <li onclick="handleLogout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</li>
+                <li onclick="showSection('perfil')" id="nav-perfil" class="active"><i class="fas fa-id-card-alt"></i> Mi Perfil</li>
+                <li onclick="showSection('capacitaciones')"><i class="fas fa-book-reader"></i> Capacitaciones</li>
+                <li onclick="showSection('comunicados')"><i class="fas fa-bullhorn"></i> Comunicados</li>
+                <li onclick="showSection('boletas-list')"><i class="fas fa-clipboard-list"></i> Listado Boletas</li>
+                <li onclick="showSection('boletas-ins')"><i class="fas fa-ticket-alt"></i> Inscribir Boleta</li>
+                <li onclick="handleLogout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> Salir</li>
             </ul>
         </nav>
 
@@ -66,97 +56,73 @@
             </header>
 
             <div id="sec-perfil" class="section-content">
-                <h3>Carnet Digital de Identificación</h3>
-                <div class="carnet">
-                    <div class="carnet-header">SENTINELS Logística y Eventos</div>
-                    <div class="carnet-body">
-                        <div class="carnet-photo">
-                            <i class="fas fa-user-circle fa-5x" style="color: #ccc;"></i>
+                <div class="profile-grid">
+                    <div class="carnet">
+                        <div class="carnet-header">SENTINELS LOGÍSTICA</div>
+                        <div class="carnet-body">
+                            <div class="carnet-photo" id="profile-img-display">
+                                <i class="fas fa-user-circle fa-5x" style="color:#ccc"></i>
                             </div>
-                        <div class="carnet-info">
-                            <p class="label">Nombre Completo</p>
-                            <p class="value" id="c-nombre">---</p>
-                            
-                            <p class="label">Cargo / Rol</p>
-                            <p class="value" id="c-rol">Personal Operativo</p>
-                            
-                            <p class="label">Ubicación</p>
-                            <p class="value">Soacha / Bogotá</p>
+                            <div class="carnet-info">
+                                <p class="value" id="c-nombre">---</p>
+                                <p class="label">CC: <span id="c-doc">---</span></p>
+                                <p class="label">Nacimiento: <span id="c-fecha">---</span></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="carnet-footer">Validez: 2024</div>
+                    <div class="edit-profile-form">
+                        <h3>Editar Información</h3>
+                        <input type="text" id="edit-photo" placeholder="URL de Foto (Link)">
+                        <input type="text" id="edit-doc" placeholder="Número de Documento">
+                        <label>Fecha de Nacimiento:</label>
+                        <input type="date" id="edit-fecha">
+                        <button class="btn-primary" onclick="actualizarPerfil()">Guardar Cambios</button>
+                    </div>
                 </div>
             </div>
 
             <div id="sec-capacitaciones" class="section-content" style="display:none;">
-                <h3>Capacitaciones Disponibles</h3>
-                <div class="card-list">
-                    <div class="item-card">
-                        <h4>Seguridad en Alturas (Nivel Básico)</h4>
-                        <p>Fecha: 15 de Mayo - 8:00 AM</p>
-                        <div class="action-buttons">
-                            <button class="btn-sm-success">Asistir</button>
-                            <button class="btn-sm-danger">No Asistir</button>
-                        </div>
-                    </div>
+                <div class="admin-only-block" id="admin-cap-form" style="display:none;">
+                    <h4>Nueva Capacitación</h4>
+                    <input type="text" id="new-cap-title" placeholder="Nombre de la capacitación">
+                    <button class="btn-primary" onclick="crearCapacitacion()">Publicar</button>
                 </div>
+                <div id="capacitaciones-list"></div>
             </div>
 
             <div id="sec-comunicados" class="section-content" style="display:none;">
-                <h3>Comunicados Oficiales</h3>
-                <div id="admin-comunicado-form" class="admin-only-block" style="display:none;">
-                    <textarea id="nuevo-comunicado" placeholder="Escribe el nuevo comunicado aquí..."></textarea>
-                    <button class="btn-primary" onclick="publicarComunicado()">Publicar</button>
+                <div class="admin-only-block" id="admin-com-form" style="display:none;">
+                    <h4>Nuevo Comunicado</h4>
+                    <textarea id="new-com-text" placeholder="Escriba el anuncio..."></textarea>
+                    <button class="btn-primary" onclick="crearComunicado()">Enviar Comunicado</button>
                 </div>
-                <div id="comunicados-list">
-                    <div class="item-card info">
-                        <h4>Actualización de Uniformes</h4>
-                        <p>A partir del lunes, es obligatorio el uso del nuevo chaleco distintivo en todos los eventos de Bogotá.</p>
-                        <span class="date">Publicado: Hoy</span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="sec-eventos" class="section-content" style="display:none;">
-                <h3>Mis Próximos Eventos</h3>
-                <div class="card-list">
-                    <div class="item-card event">
-                        <h4>Concierto Movistar Arena (Montaje)</h4>
-                        <p><i class="fas fa-map-marker-alt"></i> Bogotá</p>
-                        <p><i class="fas fa-clock"></i> 20 de Mayo - 6:00 AM</p>
-                        <div class="action-buttons">
-                            <button class="btn-sm-success">Confirmar Asistencia</button>
-                            <button class="btn-sm-danger">Rechazar</button>
-                        </div>
-                    </div>
-                </div>
+                <div id="comunicados-list"></div>
             </div>
 
             <div id="sec-boletas-list" class="section-content" style="display:none;">
-                <h3>Mis Boletas Registradas</h3>
-                <p style="font-size:0.9rem; color:#666; margin-bottom:15px;">Nota: Todas las boletas inician en estado 'Pendiente' hasta que el administrador verifique el pago.</p>
-                <table id="table-boletas">
+                <div class="stats-bar">
+                    <div class="stat-card">Pendientes: <span id="count-pend">0</span></div>
+                    <div class="stat-card success">Activas: <span id="count-act">0</span></div>
+                </div>
+                <table>
                     <thead>
                         <tr>
                             <th>Código</th>
                             <th>Estado</th>
-                            <th>Usuario (Admin Ver)</th>
-                            <th class="admin-only-cell" style="display:none;">Acción Admin</th>
+                            <th>Usuario</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="lista-boletas-body">
-                        </tbody>
+                    <tbody id="lista-boletas-body"></tbody>
                 </table>
             </div>
 
             <div id="sec-boletas-ins" class="section-content" style="display:none;">
-                <h3>Inscribir Nueva Boleta</h3>
+                <h3>Registrar Nueva Boleta</h3>
                 <div class="form-group">
-                    <label>Código de la Boleta</label>
-                    <input type="text" id="input-boleta" placeholder="Ej: SN-12345" required>
-                    <p style="font-size:0.8rem; color:#888;">Ingresa el código exacto que aparece en tu boleta física.</p>
+                    <input type="text" id="input-boleta" placeholder="Ej: SN-5050">
+                    <button class="btn-primary" onclick="inscribirBoleta()">Inscribir Boleta</button>
                 </div>
-                <button class="btn-primary" onclick="inscribirBoleta()">Registrar Boleta</button>
             </div>
 
         </main>
@@ -165,7 +131,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
     <script src="script.js"></script>
 </body>
 </html>
